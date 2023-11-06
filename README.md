@@ -24,7 +24,10 @@ Conway's Game Of Life
 - controls to play sim, stop sim, reset sim
 - conways game of life rules
 
-
 ////////////////////////////////////
               DONE:
 ////////////////////////////////////
+
+// 06.11 = ~0:45
+- testing Unity/Jumbo build system
+- testing clang config over gcc/msvc

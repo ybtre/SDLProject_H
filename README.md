@@ -16,6 +16,7 @@ Conway's Game Of Life
 ////////////////////////////////////
 - project skeleton
 - test out unity build system
+- test out clang over gcc/msvc
 - mockup
 - draw 16x16 grid
 - mouse left click set tile as live

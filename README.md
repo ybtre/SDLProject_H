@@ -1,4 +1,4 @@
-#DevLog - ~8:30h
+#DevLog - ~0:00h
 Conway's Game Of Life
 
 ## Game 5/10 in the 10 games in 10 weeks challenge

@@ -1,13 +1,7 @@
 
-#include "common.h"
+SDL_Texture* get_texture_from_cache(const char *NAME);
 
-#include "defs.h"
-#include "draw.h"
-#include "structs.h"
-#include <string.h>
-
-inline SDL_Texture* get_texture_from_cache(const char *NAME);
-inline void add_texture_to_cache(const char *NAME, SDL_Texture *SDLTEXTURE);
+void add_texture_to_cache(const char *NAME, SDL_Texture *SDLTEXTURE);
 
 void prepare_scene(void)
 {
@@ -134,7 +128,7 @@ void blit_rotated(SDL_Texture *TEXTURE, const int X, const int Y, const float AN
 #endif  
 }
 
-inline SDL_Texture* get_texture_from_cache(const char *NAME)
+SDL_Texture* get_texture_from_cache(const char *NAME)
 {
     SDL_Texture* result = NULL;
     
@@ -151,7 +145,7 @@ inline SDL_Texture* get_texture_from_cache(const char *NAME)
     return(result);
 }
 
-inline void add_texture_to_cache(const char *NAME, SDL_Texture *SDLTEXTURE)
+void add_texture_to_cache(const char *NAME, SDL_Texture *SDLTEXTURE)
 {
     Texture texture = {};
     
@@ -169,3 +163,4 @@ inline void add_texture_to_cache(const char *NAME, SDL_Texture *SDLTEXTURE)
     }
 
 }
+

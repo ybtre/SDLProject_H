@@ -1,19 +1,11 @@
-#include "common.h"
 
-#include "defs.h"
-#include "structs.h"
-#include "draw.h"
-#include "stage.h"
-#include "board.h"
-#include "util.h"
 
-inline void update(void);
-inline void render(void);
+void update(void);
+void render(void);
 
-inline SDL_Texture *cursor_texture;
-inline SDL_Texture *spritesheet;
+SDL_Texture *cursor_texture;
 
-inline void reset_game(void);
+void reset_game(void);
 
 void init_stage(void)
 {
@@ -23,23 +15,24 @@ void init_stage(void)
     memset(&stage, 0, sizeof(Stage));
 
     cursor_texture = load_texture("assets/cursor.png");
-    game.spritesheet = load_texture("assets/spritesheet.png"); 
+    //game.spritesheet = load_texture("assets/spritesheet.png"); 
 
-    game_state = MAIN_MENU;
+    game_state = PLAYING;
 
-    stage.turn = TURN_NOONE;
+    stage.turn_state = TURN_DEFAULT;
+
     init_board();
 }
 
-inline void update(void)
+void update(void)
 {
     switch(game_state)
     {
         case MAIN_MENU:
              {
+                 //TODO: update_main_menu();
                  if(game.keyboard[SDL_SCANCODE_SPACE])
                  {
-                     reset_board();
                      game_state = PLAYING;
                  }
              }
@@ -53,9 +46,10 @@ inline void update(void)
 
         case GAME_OVER:
             {
+                //TODO:
+                //update_game_over();
                 if(game.keyboard[SDL_SCANCODE_SPACE])
                 {
-                    reset_game();
                     game_state = PLAYING;
                 }
             }
@@ -68,19 +62,14 @@ inline void update(void)
     }
 }
 
-inline void render(void)
+void render(void)
 {
     switch(game_state)
     {
         case MAIN_MENU:
             {
-                draw_board();
-
-                char buff[32];
-                sprintf(buff, "PRESS SPACE TO PLAY!");
-
-                SDL_Rect dest = {get_scr_width_scaled() / 4, get_scr_height_scaled() / 2, 0, 0};
-                render_text(buff, dest, 2.f);
+                //TODO:
+                //draw_main_menu();
             }
             break;
         
@@ -92,13 +81,8 @@ inline void render(void)
 
         case GAME_OVER:
             {
-                draw_board();
-
-                char buff[32];
-                sprintf(buff, "PRESS SPACE TO RESTART!");
-
-                SDL_Rect dest = {get_scr_width_scaled() / 5, get_scr_height_scaled() / 2, 0, 0};
-                render_text(buff, dest, 2.f);
+                //TODO:
+                //draw_game_over();
             }
             break;
     }
@@ -107,7 +91,7 @@ inline void render(void)
 }
 
 
-inline void reset_game(void)
+void reset_game(void)
 {
-    reset_board();
 }
+

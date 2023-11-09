@@ -1,9 +1,4 @@
 
-#include "common.h"
-
-#include "defs.h"
-#include "init.h"
-#include "text.h"
 
 void init_game(void)
 {
@@ -64,3 +59,4 @@ void game_close(void)
 
 	SDL_Quit();
 }
+

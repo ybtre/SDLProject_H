@@ -1,10 +1,5 @@
 
-#include "common.h"
-
-#include "defs.h"
-#include "input.h"
-
-static void handle_key_down(SDL_KeyboardEvent *EVENT)
+void handle_key_down(SDL_KeyboardEvent *EVENT)
 {
     if(EVENT->repeat == 0)
     {
@@ -15,7 +10,7 @@ static void handle_key_down(SDL_KeyboardEvent *EVENT)
     }
 };
 
-static void handle_key_up(SDL_KeyboardEvent *EVENT)
+void handle_key_up(SDL_KeyboardEvent *EVENT)
 {
     if(EVENT->repeat == 0)
     {
@@ -26,12 +21,12 @@ static void handle_key_up(SDL_KeyboardEvent *EVENT)
     }
 };
 
-inline void handle_mouse_up(SDL_MouseButtonEvent *E)
+void handle_mouse_up(SDL_MouseButtonEvent *E)
 {
     game.mouse.button[E->button] = 0;
 }
 
-inline void handle_mouse_down(SDL_MouseButtonEvent *E)
+void handle_mouse_down(SDL_MouseButtonEvent *E)
 {
     game.mouse.button[E->button] = 1;
 }
@@ -80,3 +75,4 @@ void handle_input(void)
 
     SDL_GetMouseState(&game.mouse.x, &game.mouse.y);
 }
+

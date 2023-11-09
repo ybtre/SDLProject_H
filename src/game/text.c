@@ -1,12 +1,9 @@
+#define GLYPH_HEIGHT    28
+#define GLYPH_WIDTH     18
 
-#include "common.h"
-#include "defs.h"
-#include "draw.h"
-#include "text.h"
-#include <string.h>
 
-inline SDL_Texture *font_texture;
-inline char         draw_text_buffer[MAX_LINE_LENGTH];
+SDL_Texture *font_texture;
+char         draw_text_buffer[MAX_LINE_LENGTH];
 
 void init_fonts()
 {
@@ -58,3 +55,4 @@ void draw_text(int X, int Y, int R, int G, int B, int ALIGN, const char *FORMAT,
         }
     }
 };
+

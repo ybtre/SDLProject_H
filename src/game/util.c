@@ -1,14 +1,12 @@
+typedef struct Vec2i
+{
+    int x;
+    int y;
+} Vec2i;
 
-#include "common.h"
-
-#include "util.h"
-#include "defs.h"
-#include <stdint.h>
-#include <stdlib.h>
-
-inline uint64_t total_malloc    = 0;
-inline uint64_t total_free      = 0;
-extern void* mmalloc(uint64_t SIZE)
+uint64_t total_malloc    = 0;
+uint64_t total_free      = 0;
+void* mmalloc(uint64_t SIZE)
 {
     void* mem_ptr;
 
@@ -23,7 +21,7 @@ extern void* mmalloc(uint64_t SIZE)
     return(mem_ptr);
 }
 
-extern void mfree(void* MEM_TO_FREE)
+void mfree(void* MEM_TO_FREE)
 {
     total_malloc -= sizeof(MEM_TO_FREE);
     total_free += sizeof(MEM_TO_FREE);
@@ -82,15 +80,3 @@ int get_scr_height_scaled(void)
 {
     return(SCREEN_HEIGHT * SCREEN_SCALE);
 }
-
-
-
-
-
-
-
-
-
-
-
-

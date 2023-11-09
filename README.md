@@ -14,11 +14,7 @@ Conway's Game Of Life
 ////////////////////////////////////
               TODO:
 ////////////////////////////////////
-- project skeleton
-- test out unity build system
-- test out clang over gcc/msvc
 - mockup
-- draw 16x16 grid
 - mouse left click set tile as live
 - mouse right click set tile as dead
 - controls to play sim, stop sim, reset sim
@@ -27,6 +23,10 @@ Conway's Game Of Life
 ////////////////////////////////////
               DONE:
 ////////////////////////////////////
+
+//09.11 = ~1:00
+- project skeleton
+- draw 50x50 grid
 
 // 06.11 = ~0:45
 - testing Unity/Jumbo build system

@@ -1,5 +1,5 @@
 
-OBJS = src/game/*.c
+OBJS = src/game/all.c
 
 CC = gcc
 

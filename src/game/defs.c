@@ -11,7 +11,7 @@
 #define PI                      3.14159265358979323846
 
 
-#define CELL_SIZE               8
+#define CELL_SIZE               12
 #define GRID_X                  50
 #define GRID_Y                  50
 

@@ -124,6 +124,20 @@ Grid grid;
 
 typedef enum
 {
+    BUTTON_ACTIVE,
+    BUTTON_INACTIVE,
+    BUTTON_HOVERED,
+    BUTTON_PRESSED,
+} Button_State;
+
+typedef struct
+{
+    SDL_Rect            rect;
+    Button_State        state;
+} Button;
+
+typedef enum
+{
     TURN_DEFAULT,
     TURN_PAUSED,
     

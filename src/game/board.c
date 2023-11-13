@@ -35,10 +35,32 @@ void init_board()
             c->rect.x            = grid.rect.x + (x * (c->rect.w + margin));
             c->rect.y            = grid.rect.y + (y * (c->rect.h + margin));
            
-            int s                = rand() % 2;
-            c->state             = s;
+            if((x > 50 AND x < 100)
+                    AND 
+                (y > 50 AND y < 100))
+            {
+                //int s                = rand() % 2;
+                c->state             = CELL_ALIVE;
+            }
+            else 
+            {
+                c->state = CELL_DEAD;
+            }
 
             c->steps_since_dead  = 0;
+            
+            if(c->state == CELL_ALIVE)
+            {
+                c->r = 190;
+                c->g = 215;
+                c->b = 134;
+            }
+            else
+            {
+                c->r = 89;
+                c->g = 102;
+                c->b = 102;
+            }
         }
     }
 }
@@ -118,28 +140,27 @@ void step_board(void)
             
             c->state_next_step = c->state;
 
-            if(neigh == 2)
+            if(neigh == 2
+                    OR neigh == 1
+                    OR neigh == 4
+                    OR neigh == 5)
             {
                 if(c->state == CELL_ALIVE)
                 {
                     c->state_next_step = CELL_ALIVE;
-                    c->steps_since_dead = 0;
                 }
                 else
                 {
                     c->state_next_step = CELL_DEAD;
-                    c->steps_since_dead++;
                 }
             }
             elif(neigh == 3)
             {
                 c->state_next_step = CELL_ALIVE;
-                c->steps_since_dead = 0;
             }
             else
             {
                 c->state_next_step = CELL_DEAD;
-                c->steps_since_dead++;
             }
         }
     }
@@ -150,6 +171,14 @@ void step_board(void)
         {
             c           = &grid.cells[x][y];
             c->state    = c->state_next_step;
+
+            if(c->state == CELL_DEAD)
+            {
+                c->steps_since_dead++;
+                c->r *= .95f;
+                c->g *= .95f;
+                c->b *= .95f;
+            }
         }
     }
 }
@@ -167,12 +196,30 @@ void draw_board(void)
 
             if(c->state == CELL_ALIVE)
             {
-                SDL_SetRenderDrawColor(game.renderer, 190, 215, 134, 255);
+                c->r = 190;
+                c->g = 215;
+                c->b = 132;
+                SDL_SetRenderDrawColor(game.renderer, c->r, c->g, c->b, 255);
             }
             elif(c->state == CELL_DEAD)
             {
-                //SDL_SetRenderDrawColor(game.renderer, 89, 102, 102, 255);
-                SDL_SetRenderDrawColor(game.renderer, 190 * (1 - (c->steps_since_dead / 10)), 215 * (1 - (c->steps_since_dead / 10)), 134 * (1 - (c->steps_since_dead / 10)), 255);
+
+                /*
+                c->r *= .99f;
+                c->g *= .99f;
+                c->b *= .99f;
+                */
+
+                if(c->r < 89)
+                    c->r = 89;
+
+                if(c->g < 102)
+                    c->g = 102;
+
+                if(c->b < 102)
+                    c->b = 102;
+
+                SDL_SetRenderDrawColor(game.renderer, c->r, c->g, c->b, 255);
             }
 
             SDL_RenderFillRect(game.renderer, &c->rect);

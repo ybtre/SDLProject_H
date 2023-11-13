@@ -116,6 +116,10 @@ typedef struct
     Cell_State          state_next_step;
 
     int                 steps_since_dead;
+
+    int                 r;
+    int                 g;
+    int                 b;
 } Cell;
 
 typedef struct

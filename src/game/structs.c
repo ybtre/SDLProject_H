@@ -32,6 +32,8 @@ typedef struct
 
     int             keyboard[MAX_KEYBOARD_KEYS];
 
+    float           dt;
+
     TTF_Font        *font;
 
     SDL_Texture     *spritesheet;
@@ -111,6 +113,7 @@ typedef struct
     SDL_Rect            rect;
 
     Cell_State          state;
+    Cell_State          state_next_step;
 } Cell;
 
 typedef struct
@@ -149,6 +152,10 @@ typedef struct
     Turn_State      turn_state;
 
     Grid            *grid;
+
+    char            is_stepping;
+    float           step_rate;
+    float           step_timer;
 
     //int             entity_count;
     //Entity          entities_pool[ENTITIES_MAX];

@@ -1,13 +1,19 @@
 
 
-Button button_play = {};
-Button button_stop = {};
+Vec2i left      = { -1, 0 };
+Vec2i right     = { +1, 0 };
+Vec2i top       = { 0, -1 };
+Vec2i bot       = { 0, +1 };
+Vec2i top_left  = { -1, -1 };
+Vec2i top_right = { +1, -1 };
+Vec2i bot_left  = { -1, +1 };
+Vec2i bot_right = { +1, +1 };
 
 void init_board()
 {
     grid.active          = true;
 
-    grid.rect.x          = 10;
+    grid.rect.x          = 250;
     grid.rect.y          = 10;
     grid.rect.w          = GRID_X * CELL_SIZE; 
     grid.rect.h          = GRID_Y * CELL_SIZE;
@@ -32,23 +38,9 @@ void init_board()
             c->state             = CELL_DEAD;
         }
     }
-
-    button_play.rect.x = 1000;
-    button_play.rect.y = 100;
-    button_play.rect.w = 100;
-    button_play.rect.h = 50;
-
-    button_play.state = BUTTON_ACTIVE;
-
-    button_stop.rect.x = 1000;
-    button_stop.rect.y = 175;
-    button_stop.rect.w = 100;
-    button_stop.rect.h = 50;
-
-    button_stop.state = BUTTON_ACTIVE;
 }
 
-void update_board(void)
+void interact_board(void)
 {
     int x, y;
     char hover, pressed;
@@ -86,11 +78,83 @@ void update_board(void)
                 if(c->state == CELL_DEAD)
                 {
                     c->state        = CELL_ALIVE;
+                    c->state_next_step = CELL_ALIVE;
                 }
                 elif(c->state == CELL_ALIVE)
                 {
                     c->state        = CELL_DEAD;
+                    c->state_next_step = CELL_DEAD;
                 }
+            }
+        }
+    }
+}
+
+void step_board(void)
+{
+    int x, y, neigh;
+    Cell* c = NULL;
+    for(x = 0; x < GRID_X; x++) {
+        for(y = 0; y < GRID_Y; y++)
+        {
+            c           = &grid.cells[x][y];
+            neigh       = 0;
+            c->state    = c->state_next_step;
+
+            if(grid.cells[x + left.x][y + left.y].state == CELL_ALIVE)
+            {
+                neigh++;
+            }
+            if(grid.cells[x + right.x][y + right.y].state == CELL_ALIVE)
+            {
+                neigh++;
+            }
+            if(grid.cells[x + top.x][y + top.y].state == CELL_ALIVE)
+            {
+                neigh++;
+            }
+            if(grid.cells[x + bot.x][y + bot.y].state == CELL_ALIVE)
+            {
+                neigh++;
+            }
+            if(grid.cells[x + top_left.x][y + top_left.y].state == CELL_ALIVE)
+            {
+                neigh++;
+            }
+            if(grid.cells[x + top_right.x][y + top_right.y].state == CELL_ALIVE)
+            {
+                neigh++;
+            }
+            if(grid.cells[x + bot_left.x][y + bot_left.y].state == CELL_ALIVE)
+            {
+                neigh++;
+            }
+            if(grid.cells[x + bot_right.x][y + bot_right.y].state == CELL_ALIVE)
+            {
+                neigh++;
+            }
+
+            if(neigh == 2)
+            {
+                if(c->state == CELL_ALIVE)
+                {
+                    c->state_next_step = CELL_ALIVE;
+                }
+                else
+                {
+                    c->state_next_step = CELL_DEAD;
+                }
+            }
+            elif(neigh == 3)
+            {
+                //c->state = CELL_ALIVE;
+                c->state_next_step = CELL_ALIVE;
+
+            }
+            else
+            {
+                //c->state = CELL_DEAD;
+                c->state_next_step = CELL_DEAD;
             }
         }
     }
@@ -119,13 +183,6 @@ void draw_board(void)
             SDL_RenderFillRect(game.renderer, &c->rect);
         }
     }
-
-
-    SDL_SetRenderDrawColor(game.renderer, 89, 102, 102, 255);
-    SDL_RenderFillRect(game.renderer, &button_play.rect);
-
-    SDL_SetRenderDrawColor(game.renderer, 89, 102, 102, 255);
-    SDL_RenderFillRect(game.renderer, &button_stop.rect);
 }
 
 void reset_board(void)

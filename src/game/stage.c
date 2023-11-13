@@ -1,5 +1,8 @@
 
 
+Button button_play = {};
+Button button_stop = {};
+
 void update(void);
 void render(void);
 
@@ -14,14 +17,32 @@ void init_stage(void)
 
     memset(&stage, 0, sizeof(Stage));
 
-    cursor_texture = load_texture("assets/cursor.png");
+    cursor_texture          = load_texture("assets/cursor.png");
     //game.spritesheet = load_texture("assets/spritesheet.png"); 
 
-    game_state = PLAYING;
+    game_state              = PLAYING;
 
-    stage.turn_state = TURN_DEFAULT;
+    stage.turn_state        = TURN_DEFAULT;
 
     init_board();
+
+    stage.is_stepping       = false;
+    stage.step_rate         = .8f;
+    stage.step_timer        = 0.f;
+
+    button_play.rect.x = 1000;
+    button_play.rect.y = 100;
+    button_play.rect.w = 100;
+    button_play.rect.h = 50;
+
+    button_play.state = BUTTON_ACTIVE;
+
+    button_stop.rect.x = 1000;
+    button_stop.rect.y = 175;
+    button_stop.rect.w = 100;
+    button_stop.rect.h = 50;
+
+    button_stop.state = BUTTON_ACTIVE;
 }
 
 void update(void)
@@ -40,7 +61,42 @@ void update(void)
         
         case PLAYING:
             {
-                update_board();
+                mouse_rect.x = game.mouse.x;
+                mouse_rect.y = game.mouse.y;
+
+                if(stage.is_stepping)
+                {
+                    stage.step_timer    += (game.dt / 1000.f);
+                    //SDL_Log("step timer: %f", stage.step_timer);
+
+                    if(stage.step_timer > stage.step_rate)
+                    {
+                        step_board();
+                        stage.step_timer = 0;
+                    }
+                }
+                elif(!stage.is_stepping)
+                {
+                    interact_board();
+                    stage.step_timer    = 0;
+                }
+
+                if(SDL_HasIntersection(&mouse_rect, &button_play.rect))
+                {
+                    if(game.mouse.button[SDL_BUTTON_LEFT])
+                    {
+                        if(stage.is_stepping)
+                        {
+                            stage.is_stepping       = false;
+                        }
+                        else
+                        {
+                            stage.is_stepping       = true;
+                        }
+                        game.mouse.button[SDL_BUTTON_LEFT] = 0;
+
+                    }
+                }
             }
             break;
 
@@ -76,6 +132,19 @@ void render(void)
         case PLAYING:
             {
                 draw_board();
+
+                if(stage.is_stepping)
+                {
+                    SDL_SetRenderDrawColor(game.renderer, 89, 102, 102, 255);
+                }
+                else
+                {
+                    SDL_SetRenderDrawColor(game.renderer, 190, 215, 134, 255);
+                }
+                SDL_RenderFillRect(game.renderer, &button_play.rect);
+
+                SDL_SetRenderDrawColor(game.renderer, 89, 102, 102, 255);
+                SDL_RenderFillRect(game.renderer, &button_stop.rect);
             }
             break;
 

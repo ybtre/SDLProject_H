@@ -1,4 +1,4 @@
-#DevLog - ~0:00h
+#DevLog - ~5:00h
 Conway's Game Of Life
 
 ## Game 5/10 in the 10 games in 10 weeks challenge
@@ -14,15 +14,21 @@ Conway's Game Of Life
 ////////////////////////////////////
               TODO:
 ////////////////////////////////////
+
+////////////////////////////////////
+              DONE:
+////////////////////////////////////
+
+//13.11 - ~1h
+- playing around with different rulesets
+- fading dead cells
+
+//12.11 - ~2h
 - mockup
 - mouse left click set tile as live
 - mouse right click set tile as dead
 - controls to play sim, stop sim, reset sim
 - conways game of life rules
-
-////////////////////////////////////
-              DONE:
-////////////////////////////////////
 
 //09.11 = ~1:00
 - project skeleton

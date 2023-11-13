@@ -101,8 +101,8 @@ typedef enum Entity_Type
 
 typedef enum
 {
-    CELL_DEAD,
-    CELL_ALIVE,
+    CELL_DEAD       = 0,
+    CELL_ALIVE      = 1,
 } Cell_State;
 
 typedef struct
@@ -114,6 +114,8 @@ typedef struct
 
     Cell_State          state;
     Cell_State          state_next_step;
+
+    int                 steps_since_dead;
 } Cell;
 
 typedef struct

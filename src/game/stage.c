@@ -2,6 +2,7 @@
 
 Button button_play = {};
 Button button_step = {};
+Button button_random_board = {};
 
 void update(void);
 void render(void);
@@ -27,7 +28,7 @@ void init_stage(void)
     init_board();
 
     stage.is_stepping       = false;
-    stage.step_rate         = .2f;
+    stage.step_rate         = .01f;
     stage.step_timer        = 0.f;
 
     button_play.rect.x = 1000;
@@ -43,6 +44,13 @@ void init_stage(void)
     button_step.rect.h = 50;
 
     button_step.state = BUTTON_ACTIVE;
+
+    button_random_board.rect.x = 1000;
+    button_random_board.rect.y = 250;
+    button_random_board.rect.w = 100;
+    button_random_board.rect.h = 50;
+
+    button_random_board.state = BUTTON_ACTIVE;
 }
 
 void update(void)
@@ -108,6 +116,16 @@ void update(void)
                         game.mouse.button[SDL_BUTTON_LEFT] = 0;
                     }
                 }
+
+                if(SDL_HasIntersection(&mouse_rect, &button_random_board.rect))
+                {
+                    if(game.mouse.button[SDL_BUTTON_LEFT])
+                    {
+                        init_board();
+
+                        game.mouse.button[SDL_BUTTON_LEFT] = 0;
+                    }
+                }
             }
             break;
 
@@ -156,6 +174,9 @@ void render(void)
 
                 SDL_SetRenderDrawColor(game.renderer, 89, 102, 102, 255);
                 SDL_RenderFillRect(game.renderer, &button_step.rect);
+
+                SDL_SetRenderDrawColor(game.renderer, 89, 102, 102, 255);
+                SDL_RenderFillRect(game.renderer, &button_random_board.rect);
             }
             break;
 

@@ -34,8 +34,11 @@ void init_board()
             c->rect.h            = c->rect.w;
             c->rect.x            = grid.rect.x + (x * (c->rect.w + margin));
             c->rect.y            = grid.rect.y + (y * (c->rect.h + margin));
-            
-            c->state             = CELL_DEAD;
+           
+            int s                = rand() % 2;
+            c->state             = s;
+
+            c->steps_since_dead  = 0;
         }
     }
 }
@@ -118,18 +121,25 @@ void step_board(void)
             if(neigh == 2)
             {
                 if(c->state == CELL_ALIVE)
+                {
                     c->state_next_step = CELL_ALIVE;
+                    c->steps_since_dead = 0;
+                }
                 else
+                {
                     c->state_next_step = CELL_DEAD;
+                    c->steps_since_dead++;
+                }
             }
             elif(neigh == 3)
             {
                 c->state_next_step = CELL_ALIVE;
-
+                c->steps_since_dead = 0;
             }
             else
             {
                 c->state_next_step = CELL_DEAD;
+                c->steps_since_dead++;
             }
         }
     }
@@ -161,7 +171,8 @@ void draw_board(void)
             }
             elif(c->state == CELL_DEAD)
             {
-                SDL_SetRenderDrawColor(game.renderer, 89, 102, 102, 255);
+                //SDL_SetRenderDrawColor(game.renderer, 89, 102, 102, 255);
+                SDL_SetRenderDrawColor(game.renderer, 190 * (1 - (c->steps_since_dead / 10)), 215 * (1 - (c->steps_since_dead / 10)), 134 * (1 - (c->steps_since_dead / 10)), 255);
             }
 
             SDL_RenderFillRect(game.renderer, &c->rect);

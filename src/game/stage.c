@@ -72,7 +72,7 @@ void update(void)
                 mouse_rect.x = game.mouse.x;
                 mouse_rect.y = game.mouse.y;
 
-                SDL_Log("DT: %f", (game.dt / 1000.f));
+                //SDL_Log("DT: %f", (game.dt / 1000.f));
 
                 if(stage.is_stepping)
                 {

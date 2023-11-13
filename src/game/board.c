@@ -94,68 +94,52 @@ void step_board(void)
 {
     int x, y, neigh;
     Cell* c = NULL;
+
+    //create next gen
     for(x = 0; x < GRID_X; x++) {
         for(y = 0; y < GRID_Y; y++)
         {
             c           = &grid.cells[x][y];
             neigh       = 0;
-            c->state    = c->state_next_step;
 
-            if(grid.cells[x + left.x][y + left.y].state == CELL_ALIVE)
-            {
-                neigh++;
+            for(int u = x - 1; u <= x + 1; ++u) {
+                for(int w = y - 1; w <= y + 1; ++w)
+                {
+                    if(u == x AND w == y)
+                        continue;
+
+                    if(grid.cells[u][w].state == CELL_ALIVE)
+                        ++neigh;
+                }
             }
-            if(grid.cells[x + right.x][y + right.y].state == CELL_ALIVE)
-            {
-                neigh++;
-            }
-            if(grid.cells[x + top.x][y + top.y].state == CELL_ALIVE)
-            {
-                neigh++;
-            }
-            if(grid.cells[x + bot.x][y + bot.y].state == CELL_ALIVE)
-            {
-                neigh++;
-            }
-            if(grid.cells[x + top_left.x][y + top_left.y].state == CELL_ALIVE)
-            {
-                neigh++;
-            }
-            if(grid.cells[x + top_right.x][y + top_right.y].state == CELL_ALIVE)
-            {
-                neigh++;
-            }
-            if(grid.cells[x + bot_left.x][y + bot_left.y].state == CELL_ALIVE)
-            {
-                neigh++;
-            }
-            if(grid.cells[x + bot_right.x][y + bot_right.y].state == CELL_ALIVE)
-            {
-                neigh++;
-            }
+            
+            c->state_next_step = c->state;
 
             if(neigh == 2)
             {
                 if(c->state == CELL_ALIVE)
-                {
                     c->state_next_step = CELL_ALIVE;
-                }
                 else
-                {
                     c->state_next_step = CELL_DEAD;
-                }
             }
             elif(neigh == 3)
             {
-                //c->state = CELL_ALIVE;
                 c->state_next_step = CELL_ALIVE;
 
             }
             else
             {
-                //c->state = CELL_DEAD;
                 c->state_next_step = CELL_DEAD;
             }
+        }
+    }
+
+    //update next gen
+    for(x = 0; x < GRID_X; x++) {
+        for(y = 0; y < GRID_Y; y++)
+        {
+            c           = &grid.cells[x][y];
+            c->state    = c->state_next_step;
         }
     }
 }

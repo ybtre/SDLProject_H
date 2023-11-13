@@ -1,7 +1,7 @@
 
 
 Button button_play = {};
-Button button_stop = {};
+Button button_step = {};
 
 void update(void);
 void render(void);
@@ -27,7 +27,7 @@ void init_stage(void)
     init_board();
 
     stage.is_stepping       = false;
-    stage.step_rate         = .8f;
+    stage.step_rate         = .2f;
     stage.step_timer        = 0.f;
 
     button_play.rect.x = 1000;
@@ -37,12 +37,12 @@ void init_stage(void)
 
     button_play.state = BUTTON_ACTIVE;
 
-    button_stop.rect.x = 1000;
-    button_stop.rect.y = 175;
-    button_stop.rect.w = 100;
-    button_stop.rect.h = 50;
+    button_step.rect.x = 1000;
+    button_step.rect.y = 175;
+    button_step.rect.w = 100;
+    button_step.rect.h = 50;
 
-    button_stop.state = BUTTON_ACTIVE;
+    button_step.state = BUTTON_ACTIVE;
 }
 
 void update(void)
@@ -97,6 +97,17 @@ void update(void)
 
                     }
                 }
+
+                if(SDL_HasIntersection(&mouse_rect, &button_step.rect))
+                {
+                    if(game.mouse.button[SDL_BUTTON_LEFT])
+                    {
+                        step_board();
+                        stage.step_timer = 0;
+
+                        game.mouse.button[SDL_BUTTON_LEFT] = 0;
+                    }
+                }
             }
             break;
 
@@ -144,7 +155,7 @@ void render(void)
                 SDL_RenderFillRect(game.renderer, &button_play.rect);
 
                 SDL_SetRenderDrawColor(game.renderer, 89, 102, 102, 255);
-                SDL_RenderFillRect(game.renderer, &button_stop.rect);
+                SDL_RenderFillRect(game.renderer, &button_step.rect);
             }
             break;
 
